@@ -1,0 +1,42 @@
+{
+  "title": "Northstar Platform Modernization Plan",
+  "subtitle": "Internal Project Brief",
+  "document_date": "2026-08-07",
+  "status": "In Progress",
+  "confidential": true,
+  "version": 1.4,
+  "owner": {
+    "name": "Technology Operations",
+    "department": "Information Technology",
+    "region": "North America"
+  },
+  "executive_summary": "Northstar is a staged modernization initiative designed to simplify the existing application environment, improve reliability, reduce operational overhead, and create a cleaner foundation for future automation.",
+  "objectives": [
+    "Reduce avoidable manual administration.",
+    "Improve application reliability and observability.",
+    "Standardize deployment and rollback procedures."
+  ],
+  "milestones": [
+    {
+      "phase": "Discovery",
+      "owner": "Architecture",
+      "status": "Complete",
+      "start_date": "2026-05-04",
+      "end_date": "2026-05-22",
+      "completion_percent": 100
+    },
+    {
+      "phase": "Migration Wave 1",
+      "owner": "Platform Engineering",
+      "status": "In Progress",
+      "start_date": "2026-06-22",
+      "end_date": "2026-08-14",
+      "completion_percent": 72
+    }
+  ],
+  "notes": {
+    "unicode_test": "em dash —, café, résumé, 日本語, emoji ✅",
+    "empty_value_test": null,
+    "boolean_test": false
+  }
+}
