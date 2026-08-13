@@ -1,0 +1,15 @@
+# Go
+*.test
+coverage.out
+
+# Generated Windows resources
+*.syso
+
+# Local build output
+dist/*
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
