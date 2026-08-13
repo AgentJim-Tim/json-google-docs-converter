@@ -1,0 +1,1 @@
+A lightweight Windows app for converting JSON into formatted Google Docs and Google Docs back into JSON, with a compact Claude-inspired interface.
