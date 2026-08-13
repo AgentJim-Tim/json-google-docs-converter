@@ -28,6 +28,12 @@ jobs:
       - name: Install resource compiler
         run: go install github.com/akavel/rsrc@latest
 
+      - name: Decode app icon
+        shell: pwsh
+        run: |
+          $iconBytes = [Convert]::FromBase64String((Get-Content "assets/app-icon.ico.b64" -Raw).Trim())
+          [IO.File]::WriteAllBytes((Join-Path $PWD "assets/app-icon.ico"), $iconBytes)
+
       - name: Embed icon
         shell: pwsh
         run: |
