@@ -6,6 +6,24 @@ RUN cat /tmp/app.part.* | base64 -d > /tmp/app.tar.gz \
  && tar -xzf /tmp/app.tar.gz -C /tmp \
  && cp -a /tmp/chat-cloud-code/. /app/ \
  && rm -rf /tmp/app.part.* /tmp/app.tar.gz /tmp/chat-cloud-code
+RUN python3 - <<'PY'
+from pathlib import Path
+p=Path('/app/src/server.mjs')
+s=p.read_text()
+old='const runner = TEST_MODE ? new TestRunner(config) : new DockerRunner(config);\nif (!TEST_MODE) await runner.verify();'
+new='const MANAGED_CONTAINER = process.env.CLOUDCODE_RUNNER_MODE === "managed-container";\nconst runner = (TEST_MODE || MANAGED_CONTAINER) ? new TestRunner(config) : new DockerRunner(config);\nif (!TEST_MODE) await runner.verify();'
+if old not in s: raise SystemExit('runner patch target missing')
+s=s.replace(old,new)
+old2='runner: TEST_MODE ? "test-local" : "docker-sandbox", runner_image: RUNNER_IMAGE,'
+new2='runner: TEST_MODE ? "test-local" : (MANAGED_CONTAINER ? "managed-container" : "docker-sandbox"), runner_image: MANAGED_CONTAINER ? null : RUNNER_IMAGE,'
+if old2 not in s: raise SystemExit('status patch target missing')
+s=s.replace(old2,new2)
+old3='"Runner commands execute in an isolated container with network disabled and only the selected workspace mounted writable.",'
+new3='MANAGED_CONTAINER ? "Runner commands execute inside the isolated Railway service container; the Railway service boundary provides the outer isolation instead of nested Docker." : "Runner commands execute in an isolated container with network disabled and only the selected workspace mounted writable.",'
+if old3 not in s: raise SystemExit('instructions patch target missing')
+s=s.replace(old3,new3)
+p.write_text(s)
+PY
 RUN npm install --omit=dev
 ENV NODE_ENV=production
 ENV HOST=0.0.0.0
